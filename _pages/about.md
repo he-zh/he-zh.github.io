@@ -2,7 +2,7 @@
 layout: about
 title: about
 permalink: /
-subtitle: PhD track student at <a href="https://www.ubc.ca">UBC</a>. Contact by <a href="mailto:{{zhhe@cs.ubc.ca}}"><i class="fas fa-fw fa-envelope" aria-hidden="true"></i>zhhe@cs.ubc.ca</a>.
+subtitle: Name pronounced as [dʒ ɔŋ]. Contact by <a href="mailto:{{zhhe@cs.ubc.ca}}"><i class="fas fa-fw fa-envelope" aria-hidden="true"></i>zhhe@cs.ubc.ca</a>.
 
 profile:
   align: right
