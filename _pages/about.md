@@ -2,7 +2,7 @@
 layout: about
 title: about
 permalink: /
-subtitle: Name pronounced as [dʒ ɔŋ]. Contact by <a href="mailto:{{zhhe@cs.ubc.ca}}"><i class="fas fa-fw fa-envelope" aria-hidden="true"></i>zhhe@cs.ubc.ca</a>.
+subtitle: Zheng is pronounced as "jung". Contact by <a href="mailto:{{zhhe@cs.ubc.ca}}"><i class="fas fa-fw fa-envelope" aria-hidden="true"></i>zhhe@cs.ubc.ca</a>.
 
 profile:
   align: right
