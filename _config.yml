@@ -261,8 +261,8 @@ jekyll-archives:
     tag: '/blog/tag/:name/'
     category: '/blog/category/:name/'
 
-display_tags: ['survey', 'paper-digest', 'slide', 'formatting'] # these tags will be displayed on the front page of your blog 'math', 'code'
-display_categories: ['research'] # these categories will be displayed on the front page of your blog
+display_tags: ['survey', 'paper-digest', 'learning-theory', 'kernel'] # these tags will be displayed on the front page of your blog 'math', 'code'
+display_categories: ['research', 'basics'] # these categories will be displayed on the front page of your blog
 
 # -----------------------------------------------------------------------------
 # Jekyll Scholar
