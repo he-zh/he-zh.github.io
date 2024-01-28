@@ -39,10 +39,10 @@ In the heart of machine learning lies a fundamental question:
 **can we trust the predictions of our models beyond the data we trained them on?** 
 This is where the analysis of generalization error comes into play.
 This note delves into various techniques that offer guarantees on  how well our models generalize.
-We'll introduce concepts like VC dimension, covering numbers, Rademacher complexity, non-uniform convergence, and stability bound.
+We'll introduce concepts like VC dimension, covering numbers, Rademacher complexity, non-uniform learning, and stability bound.
 
 
-At the heart of this analysis lies the concept of excess error, a measure of how much a model's performance deviates from its ideal, true performance. But this excess error isn't a monolithic entity; it's a captivating dance between two key players: approximation error and estimation error.
+Central to this analysis lies the concept of excess error, a measure of how much a model's performance deviates from its ideal, true performance. But this excess error isn't a monolithic entity; it's a captivating dance between two key players: approximation error and estimation error.
 
 $$\underbrace{L_D(\hat h_S) - L_{Bayes}}_\text{excess error} =  \underbrace{L_D(\hat h_S) - L_D(h^*)}_\text{estimation error}
 +  \underbrace{L_D(h^*)  - L_{Bayes}}_\text{approximation error}, 
