@@ -11,7 +11,7 @@ profile:
   # image: hz3.jpeg
   image_circular: false # crops the image to make it circular
   more_info: > 
-    <p>zhhe@cs.ubc.ca</p>
+    <p>Contact by zhhe@cs.ubc.ca</p>
     
     
 

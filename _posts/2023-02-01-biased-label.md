@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  Learning with biased labels
+title:  learning with biased labels
 date:   2023-02-01
 description: a review on robust learning with noisy labels
 tags: survey paper-digest slide label-noise 

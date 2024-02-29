@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  Notes for neural data compression
+title:  a note on neural data compression
 date:   2034-01-28
 description: a short introduction to neural data compression
 tags: information-theory note
