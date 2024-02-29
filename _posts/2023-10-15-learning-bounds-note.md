@@ -38,9 +38,6 @@ toc:
 In the heart of machine learning lies a fundamental question: 
 **can we trust the predictions of our models beyond the data we trained them on?** 
 This is where the analysis of generalization error comes into play.
-This note delves into various techniques that offer guarantees on  how well our models generalize.
-We'll introduce concepts like VC dimension, covering numbers, Rademacher complexity, non-uniform learning, and stability bound.
-
 
 Central to this analysis lies the concept of excess error, a measure of how much a model's performance deviates from its ideal, true performance. But this excess error isn't a monolithic entity; it's a captivating dance between two key players: approximation error and estimation error.
 
@@ -56,6 +53,7 @@ where $$\hat h_S \in \arg\min_{h\in\mathcal{H}} L_S(h)$$, $$h^* = \arg\inf_{h\in
 - **Estimation Error:** $$L_D(\hat h_S) - L_D(h^*)$$ arises from using our algorithm $$\hat h_S$$ instead of selecting the best predictor $$h^*$$ within the hypothesis space $$\mathcal{H}$$. As the sample size m approaches infinity, the estimation error ideally tends toward zero.
 - **Approximation Error:** $$L_D(h^*)  - L_{Bayes}$$ is incurred by choosing the optimal predictor within $$\mathcal{H}$$ rather than utilizing the optimal classifier (Bayes classifier) from any hypothesis.
 
+This note delves into various techniques that offer guarantees on  how well our models generalize based on uniform or non-uniform convergence, and introduce concepts like VC dimension, covering numbers, Rademacher complexity and stability bound. 
 
 # Uniform convergence
 Bounding the estimation error of Empirical Risk Minimization (ERM) involves controlling the generalization gap between the empirical risk and the expected risk.

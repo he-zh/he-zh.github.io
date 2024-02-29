@@ -120,7 +120,7 @@ bing_site_verification:  # out your bing-site-verification ID (Bing Webmaster)
 
 blog_name: Zheng's blog # blog_name will be displayed in your blog page
 blog_nav_title: blog # your blog must have a title for it to be displayed in the nav bar
-blog_description: a place for thoughts
+blog_description: On the Path to Lifelong Learning
 permalink: /blog/:year/:title/
 
 # Pagination
@@ -178,7 +178,7 @@ announcements:
 latest_posts:
   enabled: true
   scrollable: true # adds a vertical scroll bar if there are more than 3 new posts items
-  limit: 3 # leave blank to include all the blog posts
+  limit: 5 # leave blank to include all the blog posts
 
 # -----------------------------------------------------------------------------
 # Jekyll settings
