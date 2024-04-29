@@ -7,8 +7,10 @@ subtitle: Zheng is pronounced like "jung", He is pronounced like "her".
 
 profile:
   align: right
-  image: hz.jpeg
-  # image: hz3.jpeg
+  # align: left
+  # image: hz.jpeg
+  image: hz3.jpeg
+  # image: hz1.jpg
   image_circular: false # crops the image to make it circular
   more_info: > 
     <p>Contact by zhhe@cs.ubc.ca</p>
@@ -20,7 +22,9 @@ latest_posts: true  # includes a list of the newest posts
 selected_papers: true # includes a list of papers marked as "selected={true}"
 social: true  # includes social icons at the bottom of the page
 ---
-I am currently a first-year PhD track student at the Department of Computer Science at [University of British Columbia](https://www.ubc.ca), where I am lucky to be advised by [Prof. Danica J. Sutherland](https://djsutherland.ml). Before that, I received my Master and Bachelor degrees from [Beihang University](https://ev.buaa.edu.cn) in 2023 and 2020. 
+I currently am visiting [Prof. Arthur Gretton](https://www.gatsby.ucl.ac.uk/~gretton/)'s group at [Gatsby Unit](https://www.ucl.ac.uk/gatsby/gatsby-computational-neuroscience-unit), University College London, working on kernel-based  statistical testing of conditional independence.
+I am a PhD track student at the Department of Computer Science at [University of British Columbia](https://www.ubc.ca), where I am lucky to be advised by [Prof. Danica J. Sutherland](https://djsutherland.ml). 
+Before that, I received my Master degree in 2023 advised by [Prof. Zengchang Qin](https://scholar.google.com/citations?user=gl_tc8IAAAAJ&hl=zh-CN) and Bachelor degree in 2020, from [Beihang University](https://ev.buaa.edu.cn). 
 
 My research interests span the areas of statistical machine learning and deep learning.
 I am excited to delve into when and why the models and algorithms work (or do not work). 
