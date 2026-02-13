@@ -30,7 +30,7 @@
         {%- endif -%}
 
         <!-- Entry bib key -->
-        <div id="{{entry.key}}" class="{% if site.enable_publication_thumbnails %}col-sm-8{% else %}col-sm-10{% endif %}">
+        <div id="{{entry.key}}" class="{% if site.enable_publication_thumbnails %}col-sm-8{% else %}col-sm-12{% endif %}">
         <!-- Title -->
         <div class="title">{{entry.title}}</div>
         <!-- Author -->
@@ -166,7 +166,7 @@
             {%- endif %}
           {%- endif %}
           {%- if entry.blog %}
-            <a href="{{ entry.blog }}" class="btn btn-sm z-depth-0" role="button">Blog</a>
+            <a href="{{ entry.blog }}" class="btn btn-outline-pink btn-sm z-depth-0" role="button">Blog</a>
           {%- endif %}
           {%- if entry.poster %}
             {% if entry.poster contains '://' -%}

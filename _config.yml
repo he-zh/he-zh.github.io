@@ -261,7 +261,7 @@ jekyll-archives:
     tag: '/blog/tag/:name/'
     category: '/blog/category/:name/'
 
-display_tags: ['paper-digest', 'learning-theory','information-theory'] # these tags will be displayed on the front page of your blog 'math', 'code'
+display_tags: ['kernel', 'CI', 'learning-theory'] # these tags will be displayed on the front page of your blog 'math', 'code'
 display_categories: ['research', 'basics'] # these categories will be displayed on the front page of your blog
 
 # -----------------------------------------------------------------------------

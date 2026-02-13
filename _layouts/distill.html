@@ -70,25 +70,44 @@
       <d-byline></d-byline>
       {%- endif -%}
 
-      <d-article>
-        {% if page.toc -%}
-        <d-contents>
-          <nav class="l-text figcaption">
+      {% if page.toc -%}
+      <div class="d-contents-sticky" style="opacity: 0;">
+        <nav class="figcaption">
           <h3>Contents</h3>
-            {% for section in page.toc -%}
-            <div><a href="#{{ section.name | slugify }}">{{ section.name }}</a></div>
-            {% if section.subsections -%}
-            <ul>
-              {% for subsection in section.subsections -%}
-              <li><a href="#{{ subsection.name | slugify }}">{{ subsection.name }}</a></li>
-              {% endfor %}
-            </ul>
-            {%- endif -%}
-            {%- endfor %}
-          </nav>
-        </d-contents>
-        {%- endif %}
+          {% for section in page.toc -%}
+          <div><a href="#{{ section.name | slugify }}">{{ section.name }}</a></div>
+          {% if section.subsections -%}
+          <ul>
+            {% for subsection in section.subsections -%}
+            <li><a href="#{{ subsection.name | slugify }}">{{ subsection.name }}</a></li>
+            {% endfor %}
+          </ul>
+          {%- endif -%}
+          {%- endfor %}
+        </nav>
+      </div>
+      <script>
+        (function() {
+          var toc = document.querySelector('.d-contents-sticky');
+          if (!toc) return;
+          function updateToc() {
+            var article = document.querySelector('d-article');
+            if (!article) return;
+            var articleTop = article.getBoundingClientRect().top;
+            // Show TOC only when article content is near or above the viewport top
+            if (articleTop < 80) {
+              toc.style.opacity = '1';
+            } else {
+              toc.style.opacity = '0';
+            }
+          }
+          window.addEventListener('scroll', updateToc, { passive: true });
+          updateToc();
+        })();
+      </script>
+      {%- endif %}
 
+      <d-article>
         {{ content }}
       </d-article>
 
