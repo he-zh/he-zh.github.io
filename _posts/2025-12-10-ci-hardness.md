@@ -868,6 +868,20 @@ Though the theory is pessimistic, CI testing can still be useful in practice —
 
 
 
+
+
+## Citation
+If you find this blog helpful, please consider cite
+```
+@inproceedings{hehardness2025,
+  title={On the Hardness of Conditional Independence Testing In Practice},
+  author={He, Zheng and Pogodin, Roman and Li, Yazhe and Deka, Namrata and Gretton, Arthur and Sutherland, Danica J},
+  booktitle={The Thirty-ninth Annual Conference on Neural Information Processing Systems},
+  year={2025}
+}
+```
+
+
 Paper：
 [On the Hardness of Conditional Independence Testing In Practice](https://arxiv.org/abs/2512.14000)
 
