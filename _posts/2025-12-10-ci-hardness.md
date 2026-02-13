@@ -398,12 +398,31 @@ The core issue is this:
 
 And detecting those features from finite samples is fundamentally delicate.
 
-Let’s see how this shows up in a realistic setting.
+To see how this arises in a realistic setting, consider a problem inspired by engineering diagnostics.
+
+Suppose we have high-dimensional vibration data $$C$$ collected from a mechanical system.  
+We want to know whether the behavior of component $$A$$ is connected to that of component $$B$$, *after conditioning on the vibration signal*.
+
+In many systems:
+
+- The overall behavior of each component (predicting $$A$$ or $$B$$ from $$C$$) depends on broad, low-frequency trends in the vibration data.
+- But any *direct coupling* between the two components may occur only through narrow, high-frequency resonances.
 
 
-### A realistic example
+In other words:
 
-Consider
+- The main effects are smooth and global.
+- The dependence between $$A$$ and $$B$$ may live in sharp, oscillatory structure.
+
+Detecting these two phenomena requires very different scales of analysis.
+
+A kernel that captures broad trends may completely miss high-frequency coupling.  
+A kernel that zooms in to detect oscillatory resonances may become unstable or amplify noise.
+
+
+### A Concrete Example
+
+To formalize this, consider the model
 
 $$
 A = f_A(C) +  r_A
