@@ -711,7 +711,7 @@ Because once the statistic has nonzero mean, the U-statistic is no longer degene
 
 Formally:
 
-- The bias term $$\mathbb{E}[\delta_{A\mid C}(C)\delta_{B\mid C}(C')]$$ does not vanish with $$n$$.
+- The bias term $$\mathbb{E}[\delta_{A\mid C}(C)\delta_{B\mid C}(C)]$$ does not vanish with $$n$$.
 - The centered fluctuations around this bias are of order $$1/\sqrt{n}$$.
 
 So instead of shrinking toward zero, the statistic concentrates around a positive constant:
@@ -764,7 +764,7 @@ But here is the subtle danger:
 Recall that under imperfect regression, the null statistic contains the term
 
 $$
-\delta_{A|C}(C)\,\delta_{B|C}(C).
+\delta_{A\mid C}(C)\,\delta_{B\mid C}(C).
 $$
 
 These regression errors are not arbitrary noise.
@@ -777,7 +777,7 @@ When we optimize the kernel bandwidth to increase sensitivity to dependence, we 
 
 If that weighting aligns with regions where
 $$
-\delta_{A|C}(C)\,\delta_{B|C}(C)
+\delta_{A\mid C}(C)\,\delta_{B\mid C}(C)
 $$
 is large, the test statistic increases — even under the null.
 
