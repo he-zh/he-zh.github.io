@@ -711,7 +711,7 @@ Because once the statistic has nonzero mean, the U-statistic is no longer degene
 
 Formally:
 
-- The bias term $$\mathbb{E}[\delta_{A\mid C}(C)\delta_{B\mid C}(C)]$$ does not vanish with $$n$$.
+- The bias term does not vanish with $$n$$.
 - The centered fluctuations around this bias are of order $$1/\sqrt{n}$$.
 
 So instead of shrinking toward zero, the statistic concentrates around a positive constant:
@@ -787,7 +787,7 @@ In other words:
 - We may instead be tuning it to highlight structured regression error.
 
 <div class="row justify-content-center mt-3">
-    <div class="col-sm-8 mt-3 mt-md-0">
+    <div class="col-sm-10 mt-3 mt-md-0">
         {% include figure.html path="assets/img/blog/hardness/type1_and_type2_error_compare_num.png" class="img-fluid rounded z-depth-1" %}
     </div>
 </div>
