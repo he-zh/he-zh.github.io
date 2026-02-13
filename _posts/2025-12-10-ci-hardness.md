@@ -467,7 +467,7 @@ The dependence only appears *locally* in regions of $$C$$.
 
 <div class="row justify-content-center mt-3">
     <div class="col-sm-12 mt-3 mt-md-0">
-        {% include figure.html path="assets/img/blog/hardness/residuals_L.pdf" class="img-fluid rounded z-depth-1" %}
+        {% include figure.html path="assets/img/blog/hardness/residuals_L.png" class="img-fluid rounded z-depth-1" %}
     </div>
 </div>
 <div class="caption">
@@ -788,7 +788,7 @@ In other words:
 
 <div class="row justify-content-center mt-3">
     <div class="col-sm-8 mt-3 mt-md-0">
-        {% include figure.html path="assets/img/blog/hardness/type1_and_type2_error_compare_num.pdf" class="img-fluid rounded z-depth-1" %}
+        {% include figure.html path="assets/img/blog/hardness/type1_and_type2_error_compare_num.png" class="img-fluid rounded z-depth-1" %}
     </div>
 </div>
 <div class="caption">
