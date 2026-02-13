@@ -2,13 +2,13 @@
 layout: about
 title: about
 permalink: /
-subtitle: Zheng is pronounced like "jung", He is pronounced like "her". 
+subtitle: Zheng is pronounced like "jung" and He is pronounced like "her". 
 # Contact by <a href="mailto:{{zhhe@cs.ubc.ca}}"><i class="fas fa-fw fa-envelope" aria-hidden="true"></i>zhhe@cs.ubc.ca</a>.
 
 profile:
   align: right
   # align: left
-  image: hz.jpg
+  image: hz.png
   # image: hz3.jpeg
   # image: hz1.jpg
   image_circular: false # crops the image to make it circular
