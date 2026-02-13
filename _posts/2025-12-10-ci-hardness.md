@@ -285,56 +285,80 @@ That is where the real difficulty begins.
 
 Now comes the key construction.
 
+Start with any distribution of scalars $$A, B, C$$ such that
+
+$$
+A \not\perp B \mid C.
+$$
+
+So conditional dependence genuinely exists.
+
+Now perform the following transformation.
+
+1. Write the binary expansions of $$A, B, C$$.
+2. Truncate each to 100 bits:   
+$$
+A_{100}, \quad B_{100}, \quad C_{100}.
+$$    
+3. Construct a new conditioning variable by embedding the truncated bits of $$A$$ into $$C$$ via concatenation:
+
+
+
 1. Sample scalars $$A, B, C$$ where $$A \not\!\perp\!\!\!\perp  B \mid C$$
 2. Take binary expansions of $$A, B, C$$.  
 3. Truncate each to 100 bits:
-
 $$
 A_{100}, \quad B_{100}, \quad C_{100}.
 $$
-
-3. Embed $$A_{100}$$ into $$C_{100}$$ by concatenation.
+4. Embed $$A_{100}$$ into $$C_{100}$$ by concatenation.
 
 For example:
 
 - $$C_{100} = 10011001\dots$$  
 - $$A_{100} = 10111100\dots$$  
 
-Define new $$C$$ as:
+The the new $$C$$ is:
 
+$$C_\text{new} = ((C_{100} \text{ bits}) || (A_{100} \text{ bits})) = 10011001...10111100...$$
 
-$$C_\text{new} = (C_{100} || A_{100}) = 10011001...10111100...$$
+So the new conditioning variable contains:
+- the original first 100 bits of $$C$$, and
+- the first 100 bits of $$A$$.
 
-
-Now every bit of $$A_{100}$$ is encoded inside $$C_\text{new}$$.
-
-Finally, add tiny noise to make the distribution continuous.
+Finally, add an arbitrarily small continuous noise to all binary variables so the joint distribution remains absolutely continuous.
 
 
 ### What just happened?
 
 After this construction:
 
-- $$A_\text{new}$$ can be reconstructed from $$C_\text{new}$$  
-- So conditioning on $$C_\text{new}$$ removes all information $$B_\text{new}$$ has about $$A_\text{new}$$
+- $$A_{100}$$ can be reconstructed from $$C_{100}$$  
+- Therefore, once we condition on $$C_{\text{new}}$$, $$B_{\text{new}}$$ contains no additional information beyond what is already encoded in $$A_{\text{new}}$$.
 
-Therefore:
+
+As a result,
 
 $$
 A_\text{new} \perp\!\!\!\perp B_\text{new} \mid C_\text{new}.
 $$
 
-This means we can  construct conditionally independent distribution which is arbitrarily close to the conditional dependent distribution.
+The conditional dependence has disappeared.
 
+**The crucial insight:**
 
+Nothing dramatic happened to the distribution at a coarse scale.
 
-But here’s the catch:
+The only change was that extremely fine-grained information about $$A$$ was embedded in the tail digits of $$C$$.
 
-The independence holds only because of information hidden in extremely fine digits of $$C$$.
+To detect this transformation, a test would need effectively infinite precision — it would have to examine arbitrarily fine features of the joint distribution.
 
-To detect it, a test would need infinite precision.
+No finite-sample test can reliably do this.
 
-No finite sample test can reliably examine those tail bits.
+That is the essence of the impossibility result:
+
+> Evidence for conditional independence can be hidden in arbitrarily subtle features of the distribution.
+
+And no finite dataset can rule out such constructions.
 
 ### The Shah–Peters impossibility theorem
 
