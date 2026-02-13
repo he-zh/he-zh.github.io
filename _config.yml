@@ -212,7 +212,7 @@ keep_files:
 # Plug-ins
 plugins:
   - jekyll-archives
-  - jekyll-diagrams
+  # - jekyll-diagrams # it seems this will cause a gem not found error so I commented it out in both _config.yml and Gemfile
   - jekyll-email-protect
   - jekyll-feed
   - jekyll-get-json

@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  a note on learning bounds
+title:  A note on learning bounds
 date:   2023-12-30
 description: a short overview on techniques to prove learning bounds
 tags: learning-theory note

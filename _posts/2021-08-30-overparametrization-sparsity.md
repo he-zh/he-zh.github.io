@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  overparameterization and sparsity
+title:  Overparameterization and sparsity
 date:   2021-08-30
 description: a review on recent paper about overparameterization and sparsity
 tags: survey paper-digest slide sparse overparameterization

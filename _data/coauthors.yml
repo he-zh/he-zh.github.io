@@ -10,6 +10,14 @@
 #   - firstname: ["Mingming", "M."]
 #     url: https://scholar.google.com/citations?user=_PfM-AUAAAAJ&hl=en
 
-"Wan":
-  - firstname: ["Tao", "T."]
-    url: https://scholar.google.com/citations?user=fj55XF0AAAAJ&hl=en
+# "Wan":
+#   - firstname: ["Tao", "T."]
+#     url: https://scholar.google.com/citations?user=fj55XF0AAAAJ&hl=en
+
+"Sutherland":
+  - firstname: ["Danica J.", "D.J."]
+    url: https://djsutherland.ml/
+
+"Gretton":
+  - firstname: ["Arthur", "A."]
+    url: https://www.gatsby.ucl.ac.uk/~gretton/
