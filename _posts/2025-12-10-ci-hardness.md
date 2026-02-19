@@ -295,15 +295,6 @@ So conditional dependence genuinely exists.
 
 Now perform the following transformation.
 
-1. Write the binary expansions of $$A, B, C$$.
-2. Truncate each to 100 bits:   
-$$
-A_{100}, \quad B_{100}, \quad C_{100}.
-$$    
-3. Construct a new conditioning variable by embedding the truncated bits of $$A$$ into $$C$$ via concatenation:
-
-
-
 1. Sample scalars $$A, B, C$$ where $$A \not\!\perp\!\!\!\perp  B \mid C$$
 2. Take binary expansions of $$A, B, C$$.  
 3. Truncate each to 100 bits:
@@ -311,15 +302,12 @@ $$
 A_{100}, \quad B_{100}, \quad C_{100}.
 $$
 4. Embed $$A_{100}$$ into $$C_{100}$$ by concatenation.
-
 For example:
-
 - $$C_{100} = 10011001\dots$$  
 - $$A_{100} = 10111100\dots$$  
-
 The the new $$C$$ is:
 
-$$C_\text{new} = ((C_{100} \text{ bits}) || (A_{100} \text{ bits})) = 10011001...10111100...$$
+$$C_\text{new} = (C_{100} \text{ bits} || A_{100} \text{ bits}) = 10011001...10111100...$$
 
 So the new conditioning variable contains:
 - the original first 100 bits of $$C$$, and
@@ -344,10 +332,9 @@ $$
 
 The conditional dependence has disappeared.
 
-**The crucial insight:**
+**The insight here is:**
 
 Nothing dramatic happened to the distribution at a coarse scale.
-
 The only change was that extremely fine-grained information about $$A$$ was embedded in the tail digits of $$C$$.
 
 To detect this transformation, a test would need effectively infinite precision — it would have to examine arbitrarily fine features of the joint distribution.
@@ -378,7 +365,6 @@ There is no procedure that simultaneously:
 - Achieves nontrivial power against all alternatives.
 
 This is not a shortcoming of current algorithms.
-
 It is a fundamental limitation of the problem itself.
 
 
@@ -393,12 +379,10 @@ Correct — we rarely face carefully engineered binary embedding tricks.
 But the *mechanism* behind the impossibility result is not artificial.
 
 The core issue is this:
-
-> Conditional dependence can live in structured, localized, or oscillatory features of the distribution.
-
+Conditional dependence can live in structured, localized, or oscillatory features of the distribution.
 And detecting those features from finite samples is fundamentally delicate.
 
-To see how this arises in a realistic setting, consider a problem inspired by engineering diagnostics.
+To see how this arises in a realistic setting, consider a problem inspired by engineering diagnostics:
 
 Suppose we have high-dimensional vibration data $$C$$ collected from a mechanical system.  
 We want to know whether the behavior of component $$A$$ is connected to that of component $$B$$, *after conditioning on the vibration signal*.
@@ -407,12 +391,6 @@ In many systems:
 
 - The overall behavior of each component (predicting $$A$$ or $$B$$ from $$C$$) depends on broad, low-frequency trends in the vibration data.
 - But any *direct coupling* between the two components may occur only through narrow, high-frequency resonances.
-
-
-In other words:
-
-- The main effects are smooth and global.
-- The dependence between $$A$$ and $$B$$ may live in sharp, oscillatory structure.
 
 Detecting these two phenomena requires very different scales of analysis.
 
@@ -462,8 +440,6 @@ So under the alternative, the residual correlation oscillates smoothly as a func
 
 Why this is subtle?
 
-Notice something important.
-
 The *marginal* residual correlation is
 
 $$
@@ -500,22 +476,20 @@ This is the key difficulty:
 - If a test averages too aggressively over $$C$$, it will miss this structure entirely.
 - If it localizes too aggressively, estimates become very unstable and noisy.
 
-This tension already makes detecting subtle dependence fragile.
+Methods that only measure *averaged* conditional dependence can completely miss structured, localized interactions. 
+For instance, the Generalized Covariance Measure (GCM), which effectively averages conditional covariance over $$C$$, can fail when dependence oscillates and cancels globally <d-cite key="shah2018hardness"></d-cite>.
 
-But CI testing is hard for a deeper reason.
+---
 
-It is not only difficult to detect true conditional dependence — it is also dangerously easy to detect dependence that is not actually there.
+The tension discussed above already makes detecting subtle dependence fragile.
 
+But there is an even deeper difficulty.
 
-If we look at the wrong structure (for example, use the wrong kernel scale), we may smooth away real dependence and fail to detect it.
+Even if we choose the right scale to detect dependence, CI testing can still fail — because of how we estimate conditional means.
+
+If we look at the wrong structure, we may neglect real dependence and fail to detect it.
 
 If the conditional means are estimated inaccurately, we may introduce artificial residual correlation and falsely conclude that dependence exists.
-
-In short:
-
-> The same procedure can both overlook real dependence and hallucinate spurious dependence.
-
-That dual instability is what makes conditional independence testing fundamentally delicate.
 
 ### When conditional means are perfect
 To understand where things go wrong in practice, let’s first look at the idealized setting — where we know the conditional means  exactly.
@@ -555,13 +529,13 @@ In this idealized setting:
 - Type I error is controlled, because under the null the population statistic is exactly zero.
 - Type II error depends only on how subtle the remaining dependence is, and whether the chosen kernel can resolve the relevant structure.
 
-In other words, if the conditional means were known exactly, CI testing would be a well-behaved problem. The only difficulty would be statistical power: do we have enough data and the right resolution to detect the existing dependence?
+In other words, if the conditional means were known exactly, CI testing would be a well-behaved problem.
 
 The real trouble begins when we have to estimate those conditional means from data.
 
 ### When we have to estimate the conditional means
 
-Everything above assumed we knew the true conditional means
+Everything above assumed we knew the true conditional means.
 
 In practice, we do not.
 
@@ -699,7 +673,7 @@ k_C(C,C')
 \right].
 $$
 
-So the regression errors induce a nonzero population statistic.
+So the regression errors induce a nonzero population statistic which leads to inflated Type I error.
 
 This is not sampling noise.
 
@@ -775,9 +749,7 @@ It fundamentally changes the asymptotic regime.
 ### Type I and type II error tradeoff
 
 In principle, we choose the kernel (especially the bandwidth on $$C$$) to maximize power — that is, to better detect conditional dependence.
-
-But here is the subtle danger:
-
+However,
 > The same kernel choice that amplifies true dependence can also amplify regression-induced bias.
 
 Recall that under imperfect regression, the null statistic contains the term
@@ -811,7 +783,7 @@ In other words:
     </div>
 </div>
 <div class="caption">
-    Type I and type II error tradeoff when selecting bandwidth for kernel C. Small training size corresponds to worse conditional mean estimates.
+    Type I and type II error tradeoff when selecting bandwidth for kernel C. Smaller training size corresponds to worse conditional mean estimates.
 </div>
 
 This creates a fundamental tradeoff:
@@ -832,12 +804,9 @@ but because the very act of searching for it can create it.
 ### The central lesson
 
 CI testing does not merely require detecting dependence.
+It also requires estimating conditional means accurately enough.
 
-It requires:
-
-> Estimating conditional means accurately enough that regression error does not masquerade as conditional dependence.
-
-That is an extremely strong requirement.
+That is a very strong requirement.
 
 And that is why CI testing fails in practice.
 
@@ -845,28 +814,19 @@ And that is why CI testing fails in practice.
 ## Final Summary
 ### Takeaways: why CI is hard both theoretically and practically
 
-Conditional independence testing is difficult for structural, not accidental, reasons:
+Conditional independence testing is difficult for structural reasons:
 
 1. **Dependence can hide in subtle structure.**  
    Conditional dependence may be localized, oscillatory, or globally canceling — detectable only at the right scale.
 
-2. **The kernel on $$C$$ controls what structure is visible.**  
-   Over-smoothing misses real dependence (Type II error).  
-   Over-localizing amplifies noise and instability.
-
-3. **Regression error induces spurious dependence.**  
+2. **Regression error induces spurious dependence.**  
    Imperfect estimation of $$\mathbb{E}[\phi_A(A) \mid C]$$ and $$\mathbb{E}[\phi_B(B) \mid C]$$ introduces artificial residual correlation, even under the null.
 
-4. **Kernel selection can overfit regression bias.**  
-   Optimizing the kernel on $$C$$ for power may align the test with structured regression error rather than true signal.
+3. **Detection is unstable in both directions.**  
+   Conditional dependence is not only hard to detect (high Type II error), it is also easy to hallucinate when conditional means are estimated inaccurately (inflated Type I error).
 
-5. **Null approximations rely on ideal asymptotics.**  
-   When regression error prevents degeneracy, the statistic is no longer centered at zero, and Type I error can inflate dramatically.
 
-In short:
-
-> CI testing is hard not just because dependence is difficult to detect,  
-> but because false dependence is easy to create.
+Moreover, these phenomena are not specific to KCI. They arise in essentially all conditional dependence measures that rely on estimating conditional expectations, and aggregate residual covariances across values of $$C$$.
 
 ### Practical recommendations:
 
@@ -874,7 +834,7 @@ Though the theory is pessimistic, CI testing can still be useful in practice —
 
 - **Sample splitting.**  
   Use an independent training set to estimate the conditional means $$\hat{\mu}_{A|C}$$ and $$\hat{\mu}_{B|C}$$, and a separate test set to compute the KCI statistic and calibrate the null.  
-  As a rule of thumb, the training set should be at least as large as the test set, and preferably much larger (how much larger depends on the complexity of $$\mathbb{E}[A|C]$$ and $$\mathbb{E}[B|C]$$).
+  As a rule of thumb, the training set should be at least as large as the test set, and preferably much larger (how much larger depends on the complexity of $$\mathbb{E}[A|C]$$ and $$\mathbb{E}[B|C]$$) <d-cite key="pogodin2024splitkci"></d-cite>.
 
 - **Strong regression (bias matters more than you think).**  
   Use flexible, low-bias regression models for conditional mean estimation. CI testing is extremely sensitive to systematic regression error: even small structured bias can look like conditional dependence under $$H_0$$.
