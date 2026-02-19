@@ -36,21 +36,16 @@ Why?
 
 Let’s unpack the story.
 
-
-
 ## Background
 Before we talk about hardness, we need to understand what conditional independence really means — and how we try to measure it.
 
 ### Conditional independence 
 
-What does conditional independence between $$A$$ and $$B$$ given $$C$$ mean?
+At a high level, conditional independence between $$A$$ and $$B$$ given $$C$$ asks:
 
+*Once we account for $$C$$, does $$B$$ still tell us anything about $$A$$?*
 
-At a high level:
-
-> Once we account for $$C$$, does $$B$$ still tell us anything about $$A$$?
-
-Two concrete examples help build intuition.
+Here are two concrete examples that help build intuition.
 
 ### Example 1: fairness in lending
 
@@ -58,9 +53,7 @@ Two concrete examples help build intuition.
 - $$B$$ = race  
 - $$C$$ = credit score, income  
 
-Race and loan decisions may be correlated marginally.  
-But once we control for creditworthiness, race *should* no longer influence the decision.
-
+Race and loan decisions may be correlated marginally. But once we control for creditworthiness, race *should* no longer influence the decision. 
 If it still does, the system may be unfair.
 
 
@@ -70,9 +63,7 @@ If it still does, the system may be unfair.
 - $$B$$ = time of day  
 - $$C$$ = true location  
 
-A model might use “time of day” as a shortcut for predicting location.  
-If so, its predictions will fail when time distributions shift.
-
+A model might use “time of day” as a shortcut for predicting location. If so, its predictions will fail when time distributions shift.
 If predictions remain independent of time once we condition on true location, the model is robust.
 
 
@@ -96,26 +87,21 @@ $$
 
 for all measurable functions $$f$$ and $$g$$.
 
-This functional view turns out to be crucial.
-
+In other words, conditional independence requires checking that no dependence remains between $$A$$ and $$B$$ at almost every value of $$C$$.
 
 ### CI as a hypothesis testing problem
 
-At its core, hypothesis testing asks:
-
+In hypothesis testing, we consider two hypotheses:
 - **Null hypothesis ($$H_0$$):** nothing interesting is happening.
 - **Alternative hypothesis ($$H_1$$):** something is going on.
 
-In CI testing:
+In CI testing, these become:
+- $$H_0: A \perp\!\!\!\perp B \mid C$$  
+- $$H_1: A \not\!\perp\!\!\!\perp  B \mid C$$  
 
-$$H_0: A \perp\!\!\!\perp B \mid C$$  
+By default, we retain $$H_0$$ and reject it only when the observed test statistic would be unlikely under the null.
 
-$$H_1: A \not\!\perp\!\!\!\perp  B \mid C$$  
-
-We compute a statistic from data. If it is too extreme, we reject $$H_0$$.
-
-
-Two types of error can occur:
+In testing, two types of error can occur:
 
 - **Type I error (false positive):**  
   Rejecting $$H_0$$ when conditional independence actually holds.  
@@ -130,9 +116,9 @@ A good test aims to:
 - Control Type I error at a predefined level $$\alpha$$.
 - Minimize Type II error (maximize power).
 
-For many classical testing problems, this tradeoff is manageable.
-
-For conditional independence, both errors are unusually difficult to control simultaneously.
+For many classical testing problems, this tradeoff is manageable, e.g., independence testing. 
+But for conditional independence, however, controlling both errors simultaneously is much more difficult. 
+We will see why in detail later.
 
 ### Measuring conditional independence
 
@@ -155,23 +141,19 @@ $$
 0.
 $$
 
-Let’s unpack this.
-
-- First, we measure conditional covariance by
-  $$f(A) - \mathbb{E}[f(A)|C]$$ and
-  $$g(B) - \mathbb{E}[g(B)|C]$$  
-
-- Then we weight conditional covariance by $$w(C)$$ to emphasize specific regions of $$C$$.
+**Intuition behind this CI measure:**
+- First, we remove the effect of $$C$$ by considering the residuals  
+  $$f(A) - \mathbb{E}[f(A)\mid C]$$ and  
+  $$g(B) - \mathbb{E}[g(B)\mid C],$$  
+  which capture what remains unexplained by $$C$$.
+- Then we measure the covariance between these residuals and weight it by $$w(C)$$, allowing us to emphasize specific regions of the support of $$C$$.
 
 If any conditional covariance remains on a region of $$C$$ with non-negligible probability, an appropriate $$w(C)$$ will detect it.
 
-So conditional independence means:
-
-> No residual dependence remains after removing the effect of $$C$$.
-
 ### RKHS view: from functions to operators
 
-It is impossible to test all square-integrable functions, thus we use functions in a Reproducing Kernel Hilbert Space (RKHS).
+In principle, the condition involves all square-integrable functions, which is impossible to handle computationally.  
+Instead, we restrict the function class to a Reproducing Kernel Hilbert Space (RKHS), which provides a tractable and flexible approximation.
 
 An RKHS $$\mathcal{H}_A$$ contains functions that are linear w.r.t. $$\phi_A(a)$$
 
@@ -273,17 +255,13 @@ $$
 \|\mathcal{C}_{\text{KCI}}\|_{\text{HS}}^2.
 $$
 
-So the problem reduces to:
-
-> Estimate this operator from finite samples and determine whether it is zero.
-
-That is where the real difficulty begins.
+So the problem reduces to estimating this operator from finite samples and determining whether it is zero.
 
 ## Why CI testing is fundamentally hard
 
 ### The binary embedding trick
 
-Now comes the key construction.
+We first explain why conditional independence testing is theoretically hard — regardless of which test or CI measure is used.
 
 Start with any distribution of scalars $$A, B, C$$ such that
 
@@ -302,25 +280,18 @@ $$
 A_{100}, \quad B_{100}, \quad C_{100}.
 $$
 4. Embed $$A_{100}$$ into $$C_{100}$$ by concatenation.
-For example:
-- $$C_{100} = 10011001\dots$$  
-- $$A_{100} = 10111100\dots$$  
-The the new $$C$$ is:
-
+- For example:
+  - $$C_{100} = 10011001\dots$$  
+  - $$A_{100} = 10111100\dots$$  
+  - The the new $$C$$ is:   
 $$C_\text{new} = (C_{100} \text{ bits} || A_{100} \text{ bits}) = 10011001...10111100...$$
-
-So the new conditioning variable contains:
-- the original first 100 bits of $$C$$, and
-- the first 100 bits of $$A$$.
-
-Finally, add an arbitrarily small continuous noise to all binary variables so the joint distribution remains absolutely continuous.
+5. Finally, add an arbitrarily small continuous noise to all binary variables so the joint distribution remains absolutely continuous.
 
 
 ### What just happened?
 
 After this construction:
-
-- $$A_{100}$$ can be reconstructed from $$C_{100}$$  
+- $$A_{100}$$ can be reconstructed from $C_\text{new}$$  
 - Therefore, once we condition on $$C_{\text{new}}$$, $$B_{\text{new}}$$ contains no additional information beyond what is already encoded in $$A_{\text{new}}$$.
 
 
@@ -334,18 +305,10 @@ The conditional dependence has disappeared.
 
 **The insight here is:**
 
-Nothing dramatic happened to the distribution at a coarse scale.
-The only change was that extremely fine-grained information about $$A$$ was embedded in the tail digits of $$C$$.
+Given any continuous distribution of $$A, B, C$$, we can hide the dependence inside arbitrarily fine structure 
+and construct a conditionally independent distribution that looks almost indistinguishable from the dependent one.
 
-To detect this transformation, a test would need effectively infinite precision — it would have to examine arbitrarily fine features of the joint distribution.
-
-No finite-sample test can reliably do this.
-
-That is the essence of the impossibility result:
-
-> Evidence for conditional independence can be hidden in arbitrarily subtle features of the distribution.
-
-And no finite dataset can rule out such constructions.
+To detect this transformation, a test would need effectively infinite precision. Thus, no finite-sample test can reliably do this.
 
 ### The Shah–Peters impossibility theorem
 
@@ -356,16 +319,12 @@ This construction is not just a clever trick. It reflects a deep structural limi
 More concretely:
 
 - If your test has power strictly greater than $$\alpha$$ against some alternative,  
-- Then there must exist at least one null distribution under which the test’s Type I error exceeds $$\alpha$$.
+- Then there must exist at least one null distribution under which the test's Type I error exceeds $$\alpha$$.
 
 In other words, no CI test can be uniformly valid over all continuous distributions.
+If a test controls Type I error at level $$\alpha$$ for all nulls, then it cannot achieves nontrivial power against all alternatives.
 
-There is no procedure that simultaneously:
-- Controls Type I error at level $$\alpha$$ for all nulls, and  
-- Achieves nontrivial power against all alternatives.
-
-This is not a shortcoming of current algorithms.
-It is a fundamental limitation of the problem itself.
+And this is not a shortcoming of some algorithm but rather a fundamental limitation of the problem itself.
 
 
 ##  Why it still fails in practice
@@ -373,14 +332,14 @@ It is a fundamental limitation of the problem itself.
 You might think: 
 these are adversarial constructions, surely in practice we don’t encounter them.
 
-Correct — we rarely face carefully engineered binary embedding tricks.
+Yeah, we rarely face carefully engineered binary embedding tricks.
 
+But... the mechanism behind the impossibility result is not artificial.
 
-But the *mechanism* behind the impossibility result is not artificial.
+The core issue is:
 
-The core issue is this:
-Conditional dependence can live in structured, localized, or oscillatory features of the distribution.
-And detecting those features from finite samples is fundamentally delicate.
+Conditional dependence can live in fine-grained structure,  
+and detecting (in)dependence from finite samples is very delicate.
 
 To see how this arises in a realistic setting, consider a problem inspired by engineering diagnostics:
 
@@ -388,15 +347,10 @@ Suppose we have high-dimensional vibration data $$C$$ collected from a mechanica
 We want to know whether the behavior of component $$A$$ is connected to that of component $$B$$, *after conditioning on the vibration signal*.
 
 In many systems:
-
 - The overall behavior of each component (predicting $$A$$ or $$B$$ from $$C$$) depends on broad, low-frequency trends in the vibration data.
 - But any *direct coupling* between the two components may occur only through narrow, high-frequency resonances.
 
 Detecting these two phenomena requires very different scales of analysis.
-
-A kernel that captures broad trends may completely miss high-frequency coupling.  
-A kernel that zooms in to detect oscillatory resonances may become unstable or amplify noise.
-
 
 ### A Concrete Example
 
