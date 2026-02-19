@@ -28,4 +28,4 @@ In 2024, I was a visiting student at the [Gatsby Computational Neuroscience Unit
 
 My research studies the statistical foundations of hypothesis testing. I develop principled methods for conditional independence testing, with a focus on understanding failure modes and providing robust guarantees in high-dimensional and online settings.
 
-Broadly, I am interested in when and why learning algorithms succeed or break, and how to provide statistically grounded guarantees for complex, high-dimensional models. I am increasingly exploring how conditional invariance principles can improve robustness and interpretability in large-scale systems.
+Broadly, I am interested in when and why learning algorithms succeed or break, and how to provide statistically grounded guarantees for complex models. I am increasingly exploring how conditional invariance principles can improve robustness and interpretability in neural networks.
