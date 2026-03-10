@@ -2,7 +2,7 @@
 layout: distill
 title: Why testing conditional independence is so hard?
 date:  2025-12-10
-description: 
+description: Conditional independence testing powers causal discovery and fairness analysis. But it has a strange property-some dependent and independent distributions are indistinguishable from finite data. And modern CI tests can even fabricate dependence themselves. Here’s why.
 tags: paper-digest kernel CI testing
 categories: research
 giscus_comments: false
@@ -30,11 +30,44 @@ toc:
 ---
 
 
-Conditional independence (CI) testing is widely used in causal discovery, scientific modeling, fairness, domain generalization, and robustness analysis. And yet it often fails in practice.
 
-Why?
+Conditional independence (CI) testing is widely used in causal discovery, scientific modeling, fairness, domain generalization, and robustness analysis.
 
-Let’s unpack the story.
+The idea sounds simple:
+
+Remove the effect of $$C$$, and check whether anything remains connecting $$A$$ and $$B$$.
+
+If nothing remains, we declare 
+
+$$A \perp\!\!\!\perp B \mid C$$
+
+Simple, right?
+
+Unfortunately, this problem turns out to be surprisingly treacherous.
+
+CI tests often behave in puzzling ways:
+- Sometimes they miss obvious dependence.
+- Sometimes they detect dependence that does not exist.
+
+
+At first glance this looks like a technical issue:
+perhaps better kernels, deeper networks, or larger datasets could fix it.
+
+But the real story is deeper.
+
+Two different forces make CI testing fundamentally fragile:
+
+- A theoretical impossibility:
+Some dependent and independent distributions are essentially indistinguishable from finite samples.
+- A practical trap:
+The very procedure used by most CI tests—estimating conditional means—can fabricate dependence.
+
+This post explains both.
+
+We will see that CI testing fails not because current methods are poorly designed, but because the problem itself is delicately balanced.
+
+Let’s start from the beginning.
+
 
 ## Background
 Before we talk about hardness, we need to understand what conditional independence really means — and how we try to measure it.
@@ -259,17 +292,31 @@ So the problem reduces to estimating this operator from finite samples and deter
 
 ## Why CI testing is fundamentally hard
 
+Suppose someone hands you a dataset and asks:
+
+Are $$A$$ and $$B$$ independent once we condition on $$C$$?
+
+If the answer is no, we should eventually detect the dependence with enough data.
+
+That expectation is reasonable for most hypothesis testing problems.
+
+But conditional independence behaves differently.
+
+In fact, there is a surprising result:
+
+> For any CI test that works against some alternative distribution, there exists a null distribution that will fool it.
+
+To understand why, we first look at a deceptively simple construction.
+
 ### The binary embedding trick
 
-We first explain why conditional independence testing is theoretically hard — regardless of which test or CI measure is used.
-
-Start with any distribution of scalars $$A, B, C$$ such that
+Imagine we start with a distribution of scalars $$A, B, C$$ such that
 
 $$
 A \not\perp B \mid C.
 $$
 
-So conditional dependence genuinely exists.
+So conditional dependence truly exists.
 
 Now perform the following transformation.
 
@@ -279,29 +326,26 @@ Now perform the following transformation.
 $$
 A_{100}, \quad B_{100}, \quad C_{100}.
 $$
-4. Embed $$A_{100}$$ into $$C_{100}$$ by concatenation.
+1. Embed $$A_{100}$$ into $$C_{100}$$ by concatenation.
 - For example:
   - $$C_{100} = 10011001\dots$$  
   - $$A_{100} = 10111100\dots$$  
   - The the new $$C$$ is:   
 $$C_\text{new} = (C_{100} \text{ bits} || A_{100} \text{ bits}) = 10011001...10111100...$$
-5. Finally, add an arbitrarily small continuous noise to all binary variables so the joint distribution remains absolutely continuous.
 
+After this step, $$C$$ secretly contains the entire information of $$A$$.
 
-### What just happened?
+Conditioning on $$C$$ therefore reveals $$A$$ completely.
 
-After this construction:
-- $$A_{100}$$ can be reconstructed from $C_\text{new}$$  
-- Therefore, once we condition on $$C_{\text{new}}$$, $$B_{\text{new}}$$ contains no additional information beyond what is already encoded in $$A_{\text{new}}$$.
+And once $$A$$ is known, $$B$$ carries no additional information.
 
-
-As a result,
+So suddenly we obtain
 
 $$
 A_\text{new} \perp\!\!\!\perp B_\text{new} \mid C_\text{new}.
 $$
 
-The conditional dependence has disappeared.
+Conditional dependence has vanished.
 
 **The insight here is:**
 
@@ -330,16 +374,20 @@ And this is not a shortcoming of some algorithm but rather a fundamental limitat
 ##  Why it still fails in practice
 
 You might think: 
+
 these are adversarial constructions, surely in practice we don’t encounter them.
 
-Yeah, we rarely face carefully engineered binary embedding tricks.
+That is true. Real-world systems rarely contain carefully embedded binary encodings.
 
-But... the mechanism behind the impossibility result is not artificial.
+But the deeper mechanism behind the impossibility result appears naturally in practice.
 
 The core issue is:
 
-Conditional dependence can live in fine-grained structure,  
-and detecting (in)dependence from finite samples is very delicate.
+> Conditional dependence often hides in subtle, localized structure of the conditioning variable.
+
+Detecting it requires analyzing the data at the right scale.
+
+And this is precisely where CI tests become fragile.
 
 To see how this arises in a realistic setting, consider a problem inspired by engineering diagnostics:
 
