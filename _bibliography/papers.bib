@@ -4,7 +4,19 @@
   booktitle={Forty-third International Conference on Machine Learning, ICML},
   year={2026},
   selected={true},
-  abstract={Testing conditional independence is a fundamental yet inherently difficult challenge, as controlling Type I error is impossible in general. The recently popular "Model-X" paradigm offers a solution by relying on a perfectly known conditional distribution. In traditional "one-shot" testing regimes, slight deviations from perfect knowledge are sometimes allowable, but existing work in more realistic online settings has required exact adherence to Model-X. We propose a new approach for sequential testing of conditional independence that is far more robust to estimation errors in the conditional distribution. Our method, based on online optimization of the Kernel Conditional Independence statistic, introduces a novel normalization and "truncate-and-shift" calibration strategy to the testing-by-betting paradigm. This framework greatly improves validity with estimated conditionals while still providing high power across high-dimensional synthetic benchmarks and real-world fairness tasks.},
+  abstract={Testing conditional independence is fundamental yet intrinsically difficult:
+  without additional assumptions, Type I error control is impossible in general.
+  The ``Model-X'' paradigm addresses this difficulty by assuming exact knowledge of a relevant conditional distribution.
+  While small deviations from this assumption can sometimes be tolerated in classical one-shot testing, 
+  existing sequential conditional independence tests typically require the Model-X conditional to be known exactly, 
+  making them fragile when it must instead be estimated.
+  We propose a new approach that is substantially more robust to such estimation error. 
+  Our method applies testing-by-betting to an adaptively optimized Kernel Conditional Independence statistic, 
+  together with a normalization scheme and a truncate-and-shift calibration strategy.
+  These modifications greatly reduce Type I error inflation while preserving high power
+  across high-dimensional synthetic benchmarks and real-world fairness tasks, outperforming existing sequential Model-X approaches.
+  Code is available at \url{https://github.com/he-zh/SKCI}},
+  code={https://github.com/he-zh/SKCI},
 }
 
 @inproceedings{hehardness2025,
